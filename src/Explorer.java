@@ -57,12 +57,11 @@ public class Explorer {
         if (checkPath(directory + "\\" + fileName)) {
             List<Path> filesList;
 
-            // Searching the file
+            // Searching the file through layers of filters
             try (Stream<Path> walk = Files.walk(Path.of(directory))) {
-                filesList = walk
-                        .filter(Files::isRegularFile)
-                        .filter(p -> p.getFileName().toString().equalsIgnoreCase(fileName))
-                        .collect(Collectors.toList());
+                Stream<Path> firstFilter = walk.filter(Files::isRegularFile);
+                Stream<Path> secondFilter = firstFilter.filter(p -> p.getFileName().toString().equalsIgnoreCase(fileName));
+                filesList = secondFilter.collect(Collectors.toList());
             }
 
             audioFile = new File(String.valueOf(filesList.get(0)));
