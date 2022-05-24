@@ -101,8 +101,9 @@ public class Explorer {
             // Checking it the given path exists
             if (checkPath(destinationPath)) {
                 // Moving the file
-                Files.move(Paths.get(sourcePath + "\\" + fileName), Paths.get(destinationPath + "\\" + fileName),
-                        StandardCopyOption.REPLACE_EXISTING);
+                Path sourceFilePath = Paths.get(sourcePath + "\\" + fileName);
+                Path destinationFilePath = Paths.get(destinationPath + "\\" + fileName);
+                Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
             }
 
         }
