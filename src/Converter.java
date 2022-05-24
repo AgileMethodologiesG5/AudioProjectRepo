@@ -11,7 +11,9 @@ public class Converter {
 
     // Method that checks if a conversion is possible
     public boolean checkConversion(File audioFile, String format) {
-        String fileName = audioFile.getName().substring(0, audioFile.getName().lastIndexOf(".") + 1) + format;
+        int beginIndex = 0;
+        int endIndex = audioFile.getName().lastIndexOf(".") + 1;
+        String fileName = audioFile.getName().substring(beginIndex, endIndex) + format;
         return Files.exists(Path.of(fileName));
     }
 

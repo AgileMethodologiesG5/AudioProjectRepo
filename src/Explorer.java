@@ -79,7 +79,7 @@ public class Explorer {
     }
 
     // Method that converts the targeted audio file format
-    public void convertAudioFile(String format) throws UnsupportedAudioFileException, IOException {
+    public void convertAudioFile(Format format) throws UnsupportedAudioFileException, IOException {
         converter.convertAudioFile(audioFile, format);
     }
 

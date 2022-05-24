@@ -16,19 +16,19 @@ public class Main {
 
         // Converting the targeted audio file to other audio formats
         {
-            explorer.convertAudioFile("WAV");
-            explorer.convertAudioFile("AU");
-            explorer.convertAudioFile("AIFF");
+            explorer.convertAudioFile(Format.WAV);
+            explorer.convertAudioFile(Format.AU);
+            explorer.convertAudioFile(Format.AIFF);
 
             explorer.setAudioFileByName("arc1.aiff");
-            explorer.convertAudioFile("WAV");
-            explorer.convertAudioFile("AU");
-            explorer.convertAudioFile("AIFF");
+            explorer.convertAudioFile(Format.WAV);
+            explorer.convertAudioFile(Format.AU);
+            explorer.convertAudioFile(Format.AIFF);
 
             explorer.setAudioFileByName("arc1.au");
-            explorer.convertAudioFile("WAV");
-            explorer.convertAudioFile("AU");
-            explorer.convertAudioFile("AIFF");
+            explorer.convertAudioFile(Format.WAV);
+            explorer.convertAudioFile(Format.AU);
+            explorer.convertAudioFile(Format.AIFF);
         }
 
         //Testing move files between directories
