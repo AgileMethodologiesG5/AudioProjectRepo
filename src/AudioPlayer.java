@@ -10,9 +10,12 @@ public class AudioPlayer {
         String fileName = audioFile.getName();
         String fileFormat = fileName.substring(fileName.lastIndexOf(".") + 1);
 
+        boolean formatIsAIFF = fileFormat.equalsIgnoreCase("AIFF");
+        boolean formatIsAU = fileFormat.equalsIgnoreCase("AU");
+        boolean formatIsWAV = fileFormat.equalsIgnoreCase("WAV");
+
         // Checking if the audio file format is compatible
-        return fileFormat.equalsIgnoreCase("AIFF") || fileFormat.equalsIgnoreCase("AU") ||
-                fileFormat.equalsIgnoreCase("WAV");
+        return formatIsAIFF || formatIsAU || formatIsWAV;
     }
 
     // Method that plays the given audio file
