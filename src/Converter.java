@@ -16,42 +16,45 @@ public class Converter {
     }
 
     // Method that converts the given audio file format to another
+    // Method that converts the given audio file format to another
     public void convertAudioFile(File audioFile, String format) throws UnsupportedAudioFileException, IOException {
-        String outFileName = audioFile.getName().substring(0, audioFile.getName().lastIndexOf(".") + 1);
+        int beginIndex = 0;
+        int endIndex = audioFile.getName().lastIndexOf(".") + 1;
+        String stringFormat = format.toLowerCase();
+        String outFileName = audioFile.getName().substring(beginIndex, endIndex) + stringFormat;
         File outFile;
+
         AudioInputStream inAudioFile = AudioSystem.getAudioInputStream(audioFile);
         inAudioFile.reset();    // Resetting the mark positions to get all content of the audio
-        boolean checkOutFile = false;
 
         // Selecting the correct type conversion
-        switch (format) {
+        AudioFileFormat.Type type = getFormatType(format);
+        String outPath = System.getProperty("user.dir") + "\\audioLibrary\\converterOut\\" + type.toString() + outFileName;
+        outFile = new File(outPath);
+
+        // Writing the converted audio file in the given directory
+        AudioSystem.write(inAudioFile, type, outFile);
+        inAudioFile.close();
+        if (checkConversion(outFile, type.toString()))
+            System.out.println("The file conversion has been successful");
+
+    }
+
+    // Method that gets the supported audio format by the given string
+    private AudioFileFormat.Type getFormatType (String outFormat) {
+        switch (outFormat) {
             case "AIFF" -> {
-                outFileName = outFileName + "aiff";
-                outFile = new File(System.getProperty("user.dir") + "\\audioLibrary\\converterOut\\AIFF\\" + outFileName);
-                AudioSystem.write(inAudioFile, AudioFileFormat.Type.AIFF, outFile);
-                inAudioFile.close();
-                checkOutFile = checkConversion(outFile, format);
+                return AudioFileFormat.Type.AIFF;
             }
             case "AU" -> {
-                outFileName = outFileName + "au";
-                outFile = new File(System.getProperty("user.dir") + "\\audioLibrary\\converterOut\\AU\\" + outFileName);
-                AudioSystem.write(inAudioFile, AudioFileFormat.Type.AU, outFile);
-                inAudioFile.close();
-                checkOutFile = checkConversion(outFile, format);
+                return AudioFileFormat.Type.AU;
             }
             case "WAV" -> {
-                outFileName = outFileName + "wav";
-                outFile = new File(System.getProperty("user.dir") + "\\audioLibrary\\converterOut\\WAV\\" + outFileName);
-                AudioSystem.write(inAudioFile, AudioFileFormat.Type.WAVE, outFile);
-                inAudioFile.close();
-                checkOutFile = checkConversion(outFile, format);
+                return AudioFileFormat.Type.WAVE;
             }
-            default -> System.out.println("Invalid format.");
         }
-
-        if (!checkOutFile) {
-            System.out.println("File not created");
-        }
+        //Return a default format
+        return AudioFileFormat.Type.WAVE;
     }
 
 }
