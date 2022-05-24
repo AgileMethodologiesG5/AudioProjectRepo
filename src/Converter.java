@@ -16,11 +16,10 @@ public class Converter {
     }
 
     // Method that converts the given audio file format to another
-    // Method that converts the given audio file format to another
-    public void convertAudioFile(File audioFile, String format) throws UnsupportedAudioFileException, IOException {
+    public void convertAudioFile(File audioFile, Format format) throws UnsupportedAudioFileException, IOException {
         int beginIndex = 0;
         int endIndex = audioFile.getName().lastIndexOf(".") + 1;
-        String stringFormat = format.toLowerCase();
+        String stringFormat = format.name().toLowerCase();
         String outFileName = audioFile.getName().substring(beginIndex, endIndex) + stringFormat;
         File outFile;
 
@@ -41,15 +40,15 @@ public class Converter {
     }
 
     // Method that gets the supported audio format by the given string
-    private AudioFileFormat.Type getFormatType (String outFormat) {
+    private AudioFileFormat.Type getFormatType (Format outFormat) {
         switch (outFormat) {
-            case "AIFF" -> {
+            case AIFF -> {
                 return AudioFileFormat.Type.AIFF;
             }
-            case "AU" -> {
+            case AU -> {
                 return AudioFileFormat.Type.AU;
             }
-            case "WAV" -> {
+            case WAV -> {
                 return AudioFileFormat.Type.WAVE;
             }
         }
