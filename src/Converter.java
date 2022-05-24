@@ -19,7 +19,8 @@ public class Converter {
     public void convertAudioFile(File audioFile, Format format) throws UnsupportedAudioFileException, IOException {
         int beginIndex = 0;
         int endIndex = audioFile.getName().lastIndexOf(".") + 1;
-        String outFileName = audioFile.getName().substring(beginIndex, endIndex) + format.name().toLowerCase();
+        String stringFormat = format.name().toLowerCase();
+        String outFileName = audioFile.getName().substring(beginIndex, endIndex) + stringFormat;
         File outFile;
 
         AudioInputStream inAudioFile = AudioSystem.getAudioInputStream(audioFile);
