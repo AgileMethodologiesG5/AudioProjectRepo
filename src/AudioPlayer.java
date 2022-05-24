@@ -24,9 +24,9 @@ public class AudioPlayer {
             // Getting the raw data of the audio file
             AudioInputStream stream = AudioSystem.getAudioInputStream(audioFile);
             AudioFormat format = stream.getFormat();
+            int bufferSize = ((int) stream.getFrameLength() * format.getFrameSize());
 
-            DataLine.Info info = new DataLine.Info(Clip.class, format,
-                    ((int) stream.getFrameLength() * format.getFrameSize()));
+            DataLine.Info info = new DataLine.Info(Clip.class, format, bufferSize);
 
             Clip clip = (Clip) AudioSystem.getLine(info);
 
