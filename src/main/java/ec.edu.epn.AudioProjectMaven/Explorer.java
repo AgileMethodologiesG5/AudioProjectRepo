@@ -96,7 +96,7 @@ public class Explorer {
     }
 
     // Method that moves a file to another directory
-    public void moveFile(String fileName, String sourcePath, String destinationPath) throws IOException {
+    public boolean moveFile(String fileName, String sourcePath, String destinationPath) {
         // Checking if the given name exists
         if (checkPath(sourcePath + "\\" + fileName)) {
 
@@ -105,10 +105,19 @@ public class Explorer {
                 // Moving the file
                 Path sourceFilePath = Paths.get(sourcePath + "\\" + fileName);
                 Path destinationFilePath = Paths.get(destinationPath + "\\" + fileName);
-                Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+
+                try {
+                    Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+                    return true;
+                }
+                catch (IOException e) {
+                    return false;
+                }
             }
 
         }
+
+        return false;
     }
 
 }
