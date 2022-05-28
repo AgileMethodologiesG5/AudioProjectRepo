@@ -2,6 +2,7 @@ package ec.edu.epn.AudioProjectMaven;
 
 import org.junit.Test;
 
+
 import static org.junit.Assert.*;
 
 public class ExplorerTest {
@@ -17,6 +18,15 @@ public class ExplorerTest {
         );
 
         assertEquals(expected, current);
+    }
+
+    @Test
+    public void given_the_name_of_a_file_when_deleting_then_ok() {
+        Explorer e = new Explorer();
+        boolean current = e.deleteFileByName("file.txt");
+
+        assertTrue(current);
+
     }
 
 }

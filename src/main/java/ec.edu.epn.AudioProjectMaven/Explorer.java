@@ -27,7 +27,7 @@ public class Explorer {
 
     // Method that changes the targeted directory
     public void changeCurrentPath(String path) {
-        if (checkPath(path)){
+        if (checkPath(path)) {
             directory = path;
         }
     }
@@ -86,13 +86,20 @@ public class Explorer {
     }
 
     // Method that deletes a file by the given name
-    public void deleteFileByName(String name) {
-        if (checkPath(directory + "\\" + name)) {
-            File fileToDelete = new File(directory + "\\" + name);
-            
-            if (fileToDelete.delete())
-                System.out.println("The file has been deleted.");
+    public boolean deleteFileByName(String name) {
+        if (!checkPath(directory + "\\" + name)) {
+            System.out.println("The file \"" + name +
+                    "\" does not exists in the directory \"" + directory + "\"");
+            return false;
         }
+
+        File fileToDelete = new File(directory + "\\" + name);
+        boolean validation = fileToDelete.delete();
+
+        if (validation)
+            System.out.println("The file has been deleted.");
+
+        return validation;
     }
 
     // Method that moves a file to another directory
@@ -109,8 +116,7 @@ public class Explorer {
                 try {
                     Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
                     return true;
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     return false;
                 }
             }
