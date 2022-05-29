@@ -60,8 +60,7 @@ public class Explorer {
                 fileNames.add(file.getName());
             }
 
-            String[] stringArray = fileNames.toArray(new String[0]);
-            return stringArray;
+            return fileNames.toArray(new String[0]);
         }
 
         return error;
@@ -90,7 +89,7 @@ public class Explorer {
 
     // Method that plays the targeted audio file
     public boolean playAudioFile() {
-        boolean compatibility = false;
+        boolean compatibility;
 
         try {
             compatibility = audioPlayer.playAudioFile(audioFile);
@@ -116,12 +115,18 @@ public class Explorer {
         }
 
         File fileToDelete = new File(directory + "\\" + name);
-        boolean validation = fileToDelete.delete();
 
-        if (validation)
-            System.out.println("The file has been deleted.");
+        System.out.print("Are you sure to delete the file \"" + name + "\"? (y/n): ");
 
-        return validation;
+        // Checking if the deletion was approved
+        try {
+            if (System.in.read() == 121) {
+                return fileToDelete.delete();
+            }
+        } catch (IOException e) {
+            exceptionArrayList.add(e);
+        }
+        return false;
     }
 
     // Method that moves a file to another directory
@@ -140,7 +145,6 @@ public class Explorer {
                     return true;
                 } catch (IOException e) {
                     exceptionArrayList.add(e);
-                    return false;
                 }
             }
 
