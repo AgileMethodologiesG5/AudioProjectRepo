@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 
 import static org.junit.Assert.*;
@@ -65,6 +66,14 @@ public class ExplorerTest {
         boolean current = e.playAudioFile();
 
         assertFalse(current);
+    }
+
+    @Test
+    public void given_the_file_when_converting_then_ok() {
+        File currentFile = e.setAudioFileByName("house_lo.mp3");
+        Format current = Format.WAV;
+        assertThrows(UnsupportedAudioFileException.class, () -> e.convertAudioFile(current));
+
     }
 
 }

@@ -30,7 +30,7 @@ public class Explorer {
     public String changeCurrentPath(String path) {
         String oldPath = directory;
 
-        if (checkPath(path)){
+        if (checkPath(path)) {
             directory = path;
         }
 
@@ -49,7 +49,7 @@ public class Explorer {
         File[] filesPathsList = directoryFile.listFiles();
         ArrayList<String> fileNames = new ArrayList<>();
 
-        String[] error = {"There are no files in the pointing directory\n"};
+        String[] error = {"There are no files in the pointing directory\n" };
 
         if (filesPathsList != null) {
             // Sorting files
@@ -76,8 +76,7 @@ public class Explorer {
                 Stream<Path> firstFilter = walk.filter(Files::isRegularFile);
                 Stream<Path> secondFilter = firstFilter.filter(p -> p.getFileName().toString().equalsIgnoreCase(fileName));
                 filesList = secondFilter.collect(Collectors.toList());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 return null;
             }
 
@@ -93,8 +92,7 @@ public class Explorer {
 
         try {
             compatibility = audioPlayer.playAudioFile(audioFile);
-        }
-        catch (LineUnavailableException | IOException | UnsupportedAudioFileException | InterruptedException e) {
+        } catch (LineUnavailableException | IOException | UnsupportedAudioFileException | InterruptedException e) {
             return false;
         }
 
@@ -102,7 +100,7 @@ public class Explorer {
     }
 
     // Method that converts the targeted audio file format
-    public void convertAudioFile(Format format) throws UnsupportedAudioFileException, IOException {
+    public void convertAudioFile(Format format) throws IOException, UnsupportedAudioFileException {
         converter.convertAudioFile(audioFile, format);
     }
 
@@ -143,7 +141,6 @@ public class Explorer {
             }
 
         }
-
         return false;
     }
 

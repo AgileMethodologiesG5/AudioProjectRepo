@@ -20,14 +20,16 @@ public class Converter {
     }
 
     // Method that converts the given audio file format to another
-    public void convertAudioFile(File audioFile, Format format) throws UnsupportedAudioFileException, IOException {
+    public void convertAudioFile(File audioFile, Format format) throws UnsupportedAudioFileException, IOException  {
         int beginIndex = 0;
         int endIndex = audioFile.getName().lastIndexOf(".") + 1;
+        File outFile;
         String stringFormat = format.name().toLowerCase();
         String outFileName = audioFile.getName().substring(beginIndex, endIndex) + stringFormat;
-        File outFile;
 
-        AudioInputStream inAudioFile = AudioSystem.getAudioInputStream(audioFile);
+
+        AudioInputStream inAudioFile;
+        inAudioFile = AudioSystem.getAudioInputStream(audioFile);
         inAudioFile.reset();    // Resetting the mark positions to get all content of the audio
 
         // Selecting the correct type conversion
