@@ -26,10 +26,19 @@ public class Explorer {
     }
 
     // Method that changes the targeted directory
-    public void changeCurrentPath(String path) {
-        if (checkPath(path)) {
+    public String changeCurrentPath(String path) {
+        String oldPath = directory;
+
+        if (checkPath(path)){
             directory = path;
         }
+
+        return oldPath;
+    }
+
+    // Getter method to get the targeted directory
+    public String getDirectory() {
+        return directory;
     }
 
     // Method that gets the current files located in the targeted directory

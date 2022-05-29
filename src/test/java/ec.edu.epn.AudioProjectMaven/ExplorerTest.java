@@ -29,4 +29,13 @@ public class ExplorerTest {
 
     }
 
+    @Test
+    public void given_a_path_string_when_changing_directory_then_ok() {
+        Explorer e = new Explorer();
+        String expected = "C:\\Users\\Confectus\\Downloads\\AudioProjectTDD\\audioLibrary";
+        String current = e.changeCurrentPath("C:\\Users\\Confectus\\Downloads\\AudioProjectTDD\\audioOutput");
+
+        assertNotSame(expected, current);
+    }
+
 }
