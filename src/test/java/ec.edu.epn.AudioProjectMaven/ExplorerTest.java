@@ -76,4 +76,11 @@ public class ExplorerTest {
 
     }
 
+    @Test
+    public void given_the_execution_of_program_when_finish_there_are_not_exceptions_then_ok() {
+        File currentFile = e.setAudioFileByName("house_lo.mp3");
+        e.playAudioFile();
+        assertNull(e.getRecentExceptions());
+    }
+
 }

@@ -20,6 +20,7 @@ public class Explorer {
     File audioFile = null;                                                  // Targeted audio file of the explorer
     AudioPlayer audioPlayer = new AudioPlayer();                            // Audio player linked with the explorer
     Converter converter = new Converter();                                  // Audio converter linked with the explorer
+    ArrayList<Exception> exceptionArrayList = new ArrayList<>();
 
     // Method that checks if the given path exists
     private boolean checkPath(String path) {
@@ -77,6 +78,7 @@ public class Explorer {
                 Stream<Path> secondFilter = firstFilter.filter(p -> p.getFileName().toString().equalsIgnoreCase(fileName));
                 filesList = secondFilter.collect(Collectors.toList());
             } catch (IOException e) {
+                exceptionArrayList.add(e);
                 return null;
             }
 
@@ -93,6 +95,7 @@ public class Explorer {
         try {
             compatibility = audioPlayer.playAudioFile(audioFile);
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException | InterruptedException e) {
+            exceptionArrayList.add(e);
             return false;
         }
 
@@ -136,12 +139,20 @@ public class Explorer {
                     Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
                     return true;
                 } catch (IOException e) {
+                    exceptionArrayList.add(e);
                     return false;
                 }
             }
 
         }
         return false;
+    }
+
+    public ArrayList<Exception> getRecentExceptions(){
+        if (exceptionArrayList.isEmpty()){
+            exceptionArrayList = null;
+        }
+        return exceptionArrayList;
     }
 
 }
