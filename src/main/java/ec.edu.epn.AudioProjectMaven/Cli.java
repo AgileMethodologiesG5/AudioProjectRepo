@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Cli {
     // CLI Windows' commands to run them in the program's execution
     private static final ProcessBuilder clearCommand = new ProcessBuilder("cmd", "/c", "cls").inheritIO();

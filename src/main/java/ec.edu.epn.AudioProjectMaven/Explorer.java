@@ -1,52 +1,58 @@
 package ec.edu.epn.AudioProjectMaven;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class Explorer {
 
-    String directory = System.getProperty("user.dir") + "\\audioLibrary";   // Targeted directory of the explorer
     File audioFile = null;                                                  // Targeted audio file of the explorer
     AudioPlayer audioPlayer = new AudioPlayer();                            // Audio player linked with the explorer
     Converter converter = new Converter();                                  // Audio converter linked with the explorer
+    Path directory;                                                         // Targeted directory of the explorer
     ArrayList<Exception> exceptionArrayList = new ArrayList<>();
 
+    public Explorer() {
+        String stringDirectory = System.getProperty("user.dir");
+        Path mainPath = Path.of(stringDirectory);
+        System.out.println(mainPath);
+        this.directory = mainPath.getParent().resolve("audioLibrary");
+
+        // Checking if the default path is accessible
+        if (!checkPath(directory)) {
+            this.directory = mainPath.resolve("audioLibrary");
+        }
+    }
+
     // Method that checks if the given path exists
-    private boolean checkPath(String path) {
-        return Files.exists(Path.of(path));
+    private boolean checkPath(Path path) {
+        return Files.exists(path);
     }
 
     // Method that changes the targeted directory
     public String changeCurrentPath(String path) {
-        String oldPath = directory;
+        Path oldPath = directory;
+        Path newPath = Path.of(path);
 
-        if (checkPath(path)) {
-            directory = path;
+        if (checkPath(newPath)) {
+            directory = newPath;
         }
-
-        return oldPath;
-    }
-
-    // Getter method to get the targeted directory
-    public String getDirectory() {
-        return directory;
+        return String.valueOf(oldPath);
     }
 
     // Method that gets the current files located in the targeted directory
     public String[] getFilesList() {
-        /* Local variables */
-        File directoryFile = new File(directory);
+        // Local variables
+        File directoryFile = new File(String.valueOf(directory));
         File[] filesPathsList = directoryFile.listFiles();
         ArrayList<String> fileNames = new ArrayList<>();
 
@@ -68,11 +74,11 @@ public class Explorer {
 
     // Method that sets the pointed audio file by the given name
     public File setAudioFileByName(String fileName) {
-        if (checkPath(directory + "\\" + fileName)) {
+        if (checkPath(directory.resolve(fileName))) {
             List<Path> filesList;
 
             // Searching the file through layers of filters
-            try (Stream<Path> walk = Files.walk(Path.of(directory))) {
+            try (Stream<Path> walk = Files.walk(directory)) {
                 Stream<Path> firstFilter = walk.filter(Files::isRegularFile);
                 Stream<Path> secondFilter = firstFilter.filter(p -> p.getFileName().toString().equalsIgnoreCase(fileName));
                 filesList = secondFilter.collect(Collectors.toList());
@@ -83,7 +89,6 @@ public class Explorer {
 
             audioFile = new File(String.valueOf(filesList.get(0)));
         }
-
         return audioFile;
     }
 
@@ -101,14 +106,16 @@ public class Explorer {
         return compatibility;
     }
 
+
     // Method that converts the targeted audio file format
-    public void convertAudioFile(Format format) throws IOException, UnsupportedAudioFileException {
+
+    public void convertAudioFile(Format format) throws UnsupportedAudioFileException, IOException {
         converter.convertAudioFile(audioFile, format);
     }
 
     // Method that deletes a file by the given name
     public boolean deleteFileByName(String name) {
-        if (!checkPath(directory + "\\" + name)) {
+        if (!checkPath(directory.resolve(name))) {
             System.out.println("The file \"" + name +
                     "\" does not exists in the directory \"" + directory + "\"");
             return false;
@@ -130,33 +137,40 @@ public class Explorer {
     }
 
     // Method that moves a file to another directory
-    public boolean moveFile(String fileName, String sourcePath, String destinationPath) {
+    public boolean moveFile(String fileName, String strSourcePath, String strDestinationPath) {
         // Checking if the given name exists
-        if (checkPath(sourcePath + "\\" + fileName)) {
+        Path sourceFilePath = Path.of(strSourcePath + "\\" + fileName);
+        Path destinationPath = Path.of(strDestinationPath);
 
-            // Checking it the given path exists
-            if (checkPath(destinationPath)) {
-                // Moving the file
-                Path sourceFilePath = Paths.get(sourcePath + "\\" + fileName);
-                Path destinationFilePath = Paths.get(destinationPath + "\\" + fileName);
+        // Checking it the given paths exists
+        if (checkPath(sourceFilePath) && checkPath(destinationPath)) {
+            // Moving the file
+            Path destinationFilePath = Paths.get(strDestinationPath + "\\" + fileName);
 
-                try {
-                    Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
-                    return true;
-                } catch (IOException e) {
-                    exceptionArrayList.add(e);
-                }
+            try {
+                Files.move(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+                return true;
+            } catch (IOException e) {
+                exceptionArrayList.add(e);
+                return false;
             }
-
         }
         return false;
     }
 
-    public ArrayList<Exception> getRecentExceptions(){
-        if (exceptionArrayList.isEmpty()){
+    // Method that saves the last current exceptions
+    public ArrayList<Exception> getRecentExceptions() {
+        if (exceptionArrayList.isEmpty()) {
             exceptionArrayList = null;
         }
         return exceptionArrayList;
     }
 
+    // Method that gets the targeted directory
+    public String getDirectory() {
+        return String.valueOf(directory);
+    }
 }
+
+
+
