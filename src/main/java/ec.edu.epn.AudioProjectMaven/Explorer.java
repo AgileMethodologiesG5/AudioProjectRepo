@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,22 +43,24 @@ public class Explorer {
     }
 
     // Method that gets the current files located in the targeted directory
-    public String getFilesList() {
+    public String[] getFilesList() {
         /* Local variables */
         File directoryFile = new File(directory);
         File[] filesPathsList = directoryFile.listFiles();
-        StringBuilder fileNames = new StringBuilder();
-        String error = "There are no files in the pointing directory\n";
+        ArrayList<String> fileNames = new ArrayList<>();
+
+        String[] error = {"There are no files in the pointing directory\n"};
 
         if (filesPathsList != null) {
             // Sorting files
             Arrays.sort(filesPathsList);
 
             for (File file : filesPathsList) {
-                fileNames.append(file.getName()).append("\n");
+                fileNames.add(file.getName());
             }
 
-            return fileNames.toString();
+            String[] stringArray = fileNames.toArray(new String[0]);
+            return stringArray;
         }
 
         return error;
