@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 public class ExplorerTest {
@@ -32,7 +34,6 @@ public class ExplorerTest {
         boolean current = e.deleteFileByName("file.txt");
 
         assertTrue(current);
-
     }
 
     @Test
@@ -49,6 +50,13 @@ public class ExplorerTest {
         String[] current = e.getFilesList();
 
         assertArrayEquals(expected, current);
+    }
+
+    @Test
+    public void given_a_file_name_string_when_selecting_file_then_ok() {
+        File current = e.setAudioFileByName("sound.wav");
+
+        assertNotNull(current);
     }
 
 }

@@ -67,7 +67,7 @@ public class Explorer {
     }
 
     // Method that sets the pointed audio file by the given name
-    public void setAudioFileByName(String fileName) throws IOException {
+    public File setAudioFileByName(String fileName) {
         if (checkPath(directory + "\\" + fileName)) {
             List<Path> filesList;
 
@@ -77,9 +77,14 @@ public class Explorer {
                 Stream<Path> secondFilter = firstFilter.filter(p -> p.getFileName().toString().equalsIgnoreCase(fileName));
                 filesList = secondFilter.collect(Collectors.toList());
             }
+            catch (IOException e) {
+                return null;
+            }
 
             audioFile = new File(String.valueOf(filesList.get(0)));
         }
+
+        return audioFile;
     }
 
     // Method that plays the targeted audio file
