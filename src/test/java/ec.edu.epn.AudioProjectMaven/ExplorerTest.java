@@ -59,4 +59,12 @@ public class ExplorerTest {
         assertNotNull(current);
     }
 
+    @Test
+    public void given_an_audio_file_when_playing_then_not_supported() {
+        File currentFile = e.setAudioFileByName("cheer.mp3");
+        boolean current = e.playAudioFile();
+
+        assertFalse(current);
+    }
+
 }

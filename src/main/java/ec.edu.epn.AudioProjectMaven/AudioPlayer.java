@@ -21,7 +21,7 @@ public class AudioPlayer {
     }
 
     // Method that plays the given audio file
-    public void playAudioFile(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
+    public boolean playAudioFile(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
         if (checkCompatibility(audioFile)) {
             // Getting the raw data of the audio file
             AudioInputStream stream = AudioSystem.getAudioInputStream(audioFile);
@@ -40,7 +40,11 @@ public class AudioPlayer {
 
             // Waiting until the playing has finished
             TimeUnit.SECONDS.sleep((long) durationInSeconds);
+
+            return true;
         }
+
+        return false;
     }
 
 }

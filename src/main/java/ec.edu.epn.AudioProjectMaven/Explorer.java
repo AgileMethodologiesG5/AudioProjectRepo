@@ -88,13 +88,17 @@ public class Explorer {
     }
 
     // Method that plays the targeted audio file
-    public void playAudioFile() throws
-            LineUnavailableException,
-            IOException,
-            UnsupportedAudioFileException,
-            InterruptedException {
+    public boolean playAudioFile() {
+        boolean compatibility = false;
 
-        audioPlayer.playAudioFile(audioFile);
+        try {
+            compatibility = audioPlayer.playAudioFile(audioFile);
+        }
+        catch (LineUnavailableException | IOException | UnsupportedAudioFileException | InterruptedException e) {
+            return false;
+        }
+
+        return compatibility;
     }
 
     // Method that converts the targeted audio file format
