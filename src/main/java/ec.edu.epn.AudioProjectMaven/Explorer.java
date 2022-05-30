@@ -24,13 +24,10 @@ public class Explorer {
     public Explorer() {
         String stringDirectory = System.getProperty("user.dir");
         Path mainPath = Path.of(stringDirectory);
-        System.out.println(mainPath);
-        this.directory = mainPath.getParent().resolve("audioLibrary");
-
-        // Checking if the default path is accessible
-        if (!checkPath(directory)) {
-            this.directory = mainPath.resolve("audioLibrary");
+        while(!mainPath.getFileName().toString().equals("src")){
+            mainPath = mainPath.getParent();
         }
+        this.directory = mainPath.getParent().resolve("audioLibrary");
     }
 
     // Method that checks if the given path exists
@@ -110,7 +107,7 @@ public class Explorer {
     // Method that converts the targeted audio file format
 
     public void convertAudioFile(Format format) throws UnsupportedAudioFileException, IOException {
-        converter.convertAudioFile(audioFile, format);
+        converter.convertAudioFile(audioFile, format, this.directory);
     }
 
     // Method that deletes a file by the given name

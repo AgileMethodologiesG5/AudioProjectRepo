@@ -20,7 +20,7 @@ public class Converter {
     }
 
     // Method that converts the given audio file format to another
-    public void convertAudioFile(File audioFile, Format format) throws UnsupportedAudioFileException, IOException  {
+    public void convertAudioFile(File audioFile, Format format, Path directory) throws UnsupportedAudioFileException, IOException  {
         int beginIndex = 0;
         int endIndex = audioFile.getName().lastIndexOf(".") + 1;
         File outFile;
@@ -34,7 +34,7 @@ public class Converter {
 
         // Selecting the correct type conversion
         AudioFileFormat.Type type = getFormatType(format);
-        String outPath = System.getProperty("user.dir") + "\\audioLibrary\\converterOut\\" + type.toString() + outFileName;
+        String outPath = directory + "\\converterOut\\" + type.toString() + outFileName;
         outFile = new File(outPath);
 
         // Writing the converted audio file in the given directory
